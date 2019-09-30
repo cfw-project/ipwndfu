@@ -4,6 +4,11 @@
 
 **Read [disclaimer](#disclaimer) before using this software.*
 
+## About this fork
+
+* This fork patches checkm8 to not trash the heap, therefore preventing SecureROM from crashing when loading img4 images.
+
+* Also includes a signature check removing tool (rmsigchks.py), which patches SecureROM to allow loading unsigned img4 images. Only iPhone 5s is currently supported!
 
 ## checkm8
 
