@@ -6,13 +6,13 @@
 
 ## About this fork
 
-* This fork patches checkm8 to not trash the heap, therefore preventing SecureROM from crashing when loading img4 images.
+* This fork allows you to load img4 images (e.g. iBSS/LLB) in pwned DFU mode.
 
-* Image loading should now work on t8011. Working on a signature check patch.
+* Also supports loading of unsigned img4 images. Run "python rmsigchks.py" to remove signature checks.
 
-* **IMPORTANT:** Support for t8010/t8015 is currently **BROKEN**! I'm working on a fix.
+* Supports s5l8960x (iPhone 5s) and - new - t8011 (iPad Pro 2017).
 
-* Also includes a signature check removing tool (rmsigchks.py), which patches SecureROM to allow loading unsigned img4 images. Only iPhone 5s is currently supported!
+* **IMPORTANT:** Other devices are currently **NOT SUPPORTED**.
 
 ## checkm8
 

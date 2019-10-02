@@ -30,9 +30,18 @@ def all_exploit_configs():
             b"\x1f\x20\x03\xd5", # nop
         ])
     }
+    
+    t8011_patches = {
+        0x100006df8: "\x21\x00\x80\x52\xe1\xb7\x03\x39\xe1\xb3\x03\x39\xe1\xbb\x03\x39",
+        0x100006e0c: "\x1f\x20\x03\xd5", # nop
+        0x100006e10: "\x1f\x20\x03\xd5", # nop
+        0x100006e14: "\x1f\x20\x03\xd5", # nop
+        0x10000f2d0: "\x00\x00\x80\xd2\xc0\x03\x5f\xd6"
+    }
 
     return [
         DeviceConfig("iBoot-1704.10", 0x8960, s5l8960x_patches),
+        DeviceConfig("iBoot-3135.0.0.2.3", 0x8011, t8011_patches),
     ]
 
 def exploit_config(serial_number):

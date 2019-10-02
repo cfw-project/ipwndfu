@@ -16,6 +16,7 @@ _main:
   STP  X29, X30, [SP,#-0x10]!
   MOV  X29, SP
 
+  # Do not set USB Descriptors anymore, this will cause a crash on t8011 (and maybe others)
   LDR  X0, =gUSBDescriptors
   LDP  X0, X1, [X0]
   ADR  X2, USB_DESCRIPTOR
@@ -70,7 +71,6 @@ copy_loop:
   CMP  X2, X3
   B.CC copy_loop
 
-out:
   SYS  #0, c7, c5, #0
   DSB  SY
   ISB
