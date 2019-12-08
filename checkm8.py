@@ -170,8 +170,10 @@ def payload(cpid):
                 0x65786563, # 2 - EXEC_MAGIC
                 0x646F6E65, # 3 - DONE_MAGIC
                 0x6D656D63, # 4 - MEMC_MAGIC
-                0x6D656D73, # 5 - MEMS_MAGIC
-                  0x7620+1, # 6 - USB_CORE_DO_IO
+                0xEA00000E, # 2 - EXCEPTION_VECTOR
+                0x6E84+1, # 2 - GET_BOOT_TRAMPOLINE
+                0x5F80+1, # 3 - JUMPTO
+                0x7620+1, # 6 - USB_CORE_DO_IO
     ]
     constants_checkm8_s5l8950x = [
                 0x10061988, # 1 - gUSBDescriptors
