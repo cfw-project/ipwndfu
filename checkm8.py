@@ -473,7 +473,7 @@ def exploit_config(serial_number):
 
 def exploit():
   print '*** checkm8 exploit by axi0mX ***'
-  print '*** modified version by Linus Henze ***'
+  print '*** modified version by Linus Henze and synackuk ***'
 
   device = dfu.acquire_device()
   start = time.time()

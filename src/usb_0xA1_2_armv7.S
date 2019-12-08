@@ -1,12 +1,14 @@
 .text
 
 .pool
-.set USB_CORE_DO_IO, 0xBAD00006
 .set LOAD_ADDRESS,   0xBAD00001
 .set EXEC_MAGIC,     0xBAD00002
 .set MEMC_MAGIC,     0xBAD00004
-.set MEMS_MAGIC,     0xBAD00005
+.set EXCEPTION_VECTOR, 0xBAD00005
+.set GET_BOOT_TRAMPOLINE, 0xBAD00006
+.set JUMPTO, 0xBAD00007
 .set DONE_MAGIC,     0xBAD00003
+.set USB_CORE_DO_IO, 0xBAD00008
 
 .code 16
 .global _main
@@ -79,21 +81,18 @@ not_exec:
   B    request_done
 
 not_memc:
-  LDR  R2, =MEMS_MAGIC
+  LDR  R2, =EXCEPTION_VECTOR
   CMP  R0, R2
   BNE  request_done
-  CMP  R1, R2
-  BNE  request_done
 
-  MOV  R1, #0
-  STRD R1, R1, [R5]
+  LDR R3, =GET_BOOT_TRAMPOLINE
+  BLX R3
+  MOV R1, R0
+  MOV R0, #0
+  LDR R2, =LOAD_ADDRESS
+  LDR R3, =JUMPTO
+  BLX R3
 
-  LDRD R0, R1, [R5, #0x10]
-  LDR  R2, [R5, #0x18]
-  BL   memset
-
-  LDR  R2, =DONE_MAGIC
-  STRD R2, R2, [R5]
 
 request_done:
   MOV  R0, #0x80
@@ -138,39 +137,4 @@ memcpy_1:
   SUB  R2, R2, #1
 
 memcpy_done:
-  BX   LR
-
-memset:
-  MOV  R3, #0xFF
-  AND  R1, R1, R3
-  LSL  R3, R1, #8
-  ORR  R1, R1, R3
-  LSL  R3, R1, #16
-  ORR  R1, R1, R3
-
-memset_4:
-  CMP  R2, #4
-  BCC  memset_2
-
-  STR  R1, [R0]
-  ADD  R0, R0, #4
-  SUB  R2, R2, #4
-  B    memset_4
-
-memset_2:
-  CMP  R2, #2
-  BCC  memset_1
-
-  STRH R1, [R0]
-  ADD  R0, R0, #2
-  SUB  R2, R2, #2
-
-memset_1:
-  CBZ  R2, memset_done
-
-  STRB R1, [R0]
-  ADD  R0, R0, #1
-  SUB  R2, R2, #1
-
-memset_done:
   BX   LR
