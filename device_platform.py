@@ -68,7 +68,7 @@ all_platforms = [
     nonce_length=20, sep_nonce_length=None,
     demotion_reg=0x3F500000,
   ),
-  DevicePlatform(cpid=0x8945, cprv=0x21, scep=0x01, arch='armv7', srtg='iBoot-1062.2',
+  DevicePlatform(cpid=0x8945, cprv=0x00, scep=0x10, arch='armv7', srtg='iBoot-1062.2',
     rom_base=0x3F000000, rom_size=0x10000, rom_sha1='d9320ddd4bdb1de79ae0601f20e7db23441ab1a7',
     sram_base=0x34000000, sram_size=0x40000,
     dram_base=0x80000000,
